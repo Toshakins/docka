@@ -1,0 +1,49 @@
+version: '3.4'
+services:
+  mysql:
+    restart: always
+    image: "mysql:8.0.15"
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/mysql
+      - "./mysql/log:/var/log/mysql"
+  postgres:
+    restart: always
+    image: "postgres:10.5-alpine"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/postgres
+    environment:
+      - POSTGRES_PASSWORD=pass
+      - PGDATA=/data
+  cache:
+    image: "redis:4.0.9-alpine"
+    ports:
+      - "6379:6379"
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+    - ./redis:/usr/local/etc/redis/
+    restart: always
+  rcli:
+    image: "redis:4.0.9-alpine"
+    links:
+      - cache
+    # docker-compose run rcli
+    command: >
+      redis-cli -h cache
+  rabbit:
+    image: rabbitmq:3.7.14-alpine
+    ports:
+      - "5672:5672"
+volumes:
+  postgres_data:
+  mysql_data:
+  mysql_log:
+    driver: local
+  mysql_conf:
+    driver: local
