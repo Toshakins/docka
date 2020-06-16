@@ -2,7 +2,7 @@ version: '3.4'
 services:
   mysql:
     restart: always
-    image: "mysql:8.0.15"
+    image: "mysql:5.7.30"
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: toor
@@ -13,7 +13,7 @@ services:
       - "./mysql/log:/var/log/mysql"
   postgres:
     restart: always
-    image: "postgres:10.5-alpine"
+    image: "postgres:9.5.19-alpine"
     ports:
       - "5432:5432"
     volumes:
