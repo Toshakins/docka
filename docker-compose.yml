@@ -37,7 +37,7 @@ services:
     command: >
       redis-cli -h redis
   rabbit:
-    image: rabbitmq:3.7.27-alpine  # not sure about this version
+    image: rabbitmq:3.7.27-alpine
     ports:
       - "5672:5672"
   memcached:
